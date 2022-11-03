@@ -2,7 +2,7 @@ var canvas = document.getElementById("OMPCanvas");
 var drawContext = canvas.getContext("2d");
 var textContext = canvas.getContext("2d");
 var textButton = document.getElementById("modeButton");
-
+var selectedColor = "white";
 var radius = 4;
 var start = 0;
 var end = Math.PI * 2;
@@ -45,7 +45,7 @@ var type = function(e) {
 
     textInput();
     textContext.font = "50px aerial";
-    textContext.fillStyle = "white";
+    textContext.fillStyle = selectedColor;
     textContext.fillText(textEntry, textX, textY);
 }
 
@@ -65,11 +65,11 @@ function drawingMode() {
 var putPoint = function(e){
     if(dragging){
         drawContext.lineTo(e.offsetX, e.offsetY);
-        drawContext.strokeStyle = "white";
+        drawContext.strokeStyle = selectedColor;
         drawContext.stroke();
         drawContext.beginPath();
         drawContext.arc(e.offsetX, e.offsetY, radius, start, end);
-        drawContext.fillStyle = "white";
+        drawContext.fillStyle = selectedColor;
         drawContext.fill();
         drawContext.beginPath();
         drawContext.moveTo(e.offsetX, e.offsetY);
@@ -97,6 +97,10 @@ function textInput() {
             textEntry = entry;
         }
     }
+}
+
+function changeColor(color){
+   selectedColor = color;
 }
 
 function getCursorPosition(canvas, event) {

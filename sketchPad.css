@@ -3,13 +3,36 @@ html {
     font-family: 'Roboto';
 }
 
-button {
+#modebutton {
     background-color: #ffc425;
     height: 60px;
     width: 60px;
     border: none;
     z-index: 1;
+    margin-right: 25px;
     position: absolute;
+}
+
+#redButton {
+    background-color: red;
+    height: 60px;
+    width: 60px;
+    border: none;
+    z-index: 1;
+    position: absolute;
+    top: 8;
+    left: 80;
+}
+
+#whiteButton {
+    background-color: white;
+    height: 60px;
+    width: 60px;
+    border: none;
+    z-index: 1;
+    position: absolute;
+    top: 8;
+    left: 150;
 }
 
 #container {

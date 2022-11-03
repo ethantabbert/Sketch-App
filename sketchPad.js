@@ -36,41 +36,26 @@ textButton.addEventListener('click', function onClick() {
 });
 
 function textMode() {
-    canvas.addEventListener('mousedown', function(e) {
-        textX, textY = getCursorPosition(canvas, e);
-    })
-    console.log(textX, textY);
+     canvas.removeEventListener('mousedown', engage);
+    // canvas.removeEventListener('mousemove');
+    // canvas.removeEventListener('mouseup');
+    canvas.addEventListener('mousedown', type);
 
-    //textContext.fillText("hi", textX, textY);
+    canvas.addEventListener('mouseup', disengage);
+}
+
+var type = function(e) {
+    getCursorPosition(canvas, e);
+
+    textInput();
+    textEntries.forEach(x => console.log("entry", x));
+    textContext.fillText(textEntries[textEntries.length-1], textX, textY);
 }
 
 function drawingMode() {
+    canvas.removeEventListener('mousedown', type);
     drawContext.lineWidth = radius * 2;
-    
-    var putPoint = function(e){
-        if(dragging){
-            drawContext.lineTo(e.offsetX, e.offsetY);
-            drawContext.strokeStyle = "white";
-            drawContext.stroke();
-            drawContext.beginPath();
-            drawContext.arc(e.offsetX, e.offsetY, radius, start, end);
-            drawContext.fillStyle = "white";
-            drawContext.fill();
-            drawContext.beginPath();
-            drawContext.moveTo(e.offsetX, e.offsetY);
-        }
-    }
-    
-    var engage = function(e){
-        dragging = true;
-        putPoint(e);
-    }
-    
-    var disengage = function(e){
-        dragging = false;
-        drawContext.beginPath();
-    }
-    
+
     canvas.addEventListener('mousedown', engage);
     canvas.addEventListener('mousemove', putPoint);
     canvas.addEventListener('mouseup', disengage);
@@ -80,13 +65,38 @@ function drawingMode() {
     }
 }
 
+var putPoint = function(e){
+    if(dragging){
+        drawContext.lineTo(e.offsetX, e.offsetY);
+        drawContext.strokeStyle = "white";
+        drawContext.stroke();
+        drawContext.beginPath();
+        drawContext.arc(e.offsetX, e.offsetY, radius, start, end);
+        drawContext.fillStyle = "white";
+        drawContext.fill();
+        drawContext.beginPath();
+        drawContext.moveTo(e.offsetX, e.offsetY);
+    }
+}
+
+var engage = function(e){
+    dragging = true;
+    putPoint(e);
+}
+
+var disengage = function(e){
+    dragging = false;
+    drawContext.beginPath();
+}
+
+
 function textInput() {
-    if (toggleBool) {
+    if (!toggleBool) {
         let entry = prompt("Enter text:");
         if (entry == null || entry == "") {
             return;
         } else {
-            textEntries.append(entry);
+            textEntries.push(entry);
         }
     }
 }
@@ -96,6 +106,7 @@ function getCursorPosition(canvas, event) {
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
     //console.log("x: " + x + " y: " + y)
+    textX = x;
+    textY = y;
     return x, y;
 }
-

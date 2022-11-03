@@ -17,8 +17,6 @@ var textY = 0;
 canvas.width = window.innerWidth - 21;
 canvas.height = window.innerHeight * .8;
 
-window.onload = drawingMode();
-
 textButton.addEventListener('click', function onClick() {
     if (toggleBool) {
         textButton.style.backgroundColor = "#0a682f";
@@ -112,3 +110,5 @@ function getCursorPosition(canvas, event) {
     textY = y;
     return x, y;
 }
+
+window.onload = drawingMode();

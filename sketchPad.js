@@ -3,7 +3,7 @@ var drawContext = canvas.getContext("2d");
 var textContext = canvas.getContext("2d");
 var textButton = document.getElementById("modeButton");
 
-var radius = 5;
+var radius = 4;
 var start = 0;
 var end = Math.PI * 2;
 var dragging = false;
@@ -49,6 +49,8 @@ var type = function(e) {
 
     textInput();
     textEntries.forEach(x => console.log("entry", x));
+    textContext.font = "50px aerial";
+    textContext.fillStyle = "white";
     textContext.fillText(textEntries[textEntries.length-1], textX, textY);
 }
 

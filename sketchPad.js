@@ -34,9 +34,7 @@ textButton.addEventListener('click', function onClick() {
 });
 
 function textMode() {
-     canvas.removeEventListener('mousedown', engage);
-    // canvas.removeEventListener('mousemove');
-    // canvas.removeEventListener('mouseup');
+    canvas.removeEventListener('mousedown', engage);
     canvas.addEventListener('mousedown', type);
 
     canvas.addEventListener('mouseup', disengage);

@@ -10,7 +10,7 @@ var dragging = false;
 
 var toggleBool = true;
 
-var textEntries = [];
+var textEntry = "";
 var textX = 0;
 var textY = 0;
 
@@ -44,10 +44,9 @@ var type = function(e) {
     getCursorPosition(canvas, e);
 
     textInput();
-    textEntries.forEach(x => console.log("entry", x));
     textContext.font = "50px aerial";
     textContext.fillStyle = "white";
-    textContext.fillText(textEntries[textEntries.length-1], textX, textY);
+    textContext.fillText(textEntry, textX, textY);
 }
 
 function drawingMode() {
@@ -89,12 +88,13 @@ var disengage = function(e){
 
 
 function textInput() {
+    textEntry = "";
     if (!toggleBool) {
         let entry = prompt("Enter text:");
-        if (entry == null || entry == "") {
+        if (entry == undefined || entry == null || entry == "") {
             return;
         } else {
-            textEntries.push(entry);
+            textEntry = entry;
         }
     }
 }
@@ -103,7 +103,6 @@ function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    //console.log("x: " + x + " y: " + y)
     textX = x;
     textY = y;
     return x, y;

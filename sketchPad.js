@@ -19,7 +19,7 @@ canvas.height = window.innerHeight * .8;
 
 textButton.addEventListener('click', function onClick() {
     setCanvasMode();
-});
+}, loadCanvasImage());
 
 function setCanvasMode(){
     if (!isTextMode) {
@@ -39,6 +39,8 @@ function setCanvasMode(){
 
 function textMode() {
     canvas.removeEventListener('mousedown', engage);
+    canvas.removeEventListener('touchmove', putPointTouch);
+    canvas.removeEventListener('touchstart', engageTouch);
     canvas.addEventListener('mousedown', type);
 
     canvas.addEventListener('mouseup', disengage);
@@ -55,15 +57,15 @@ var type = function(e) {
 
 function drawingMode() {
     canvas.removeEventListener('mousedown', type);
+    canvas.removeEventListener('mouseup', disengage);
     drawContext.lineWidth = radius * 2;
 
     canvas.addEventListener('mousedown', engage);
     canvas.addEventListener('mousemove', putPoint);
     canvas.addEventListener('mouseup', disengage);
-
-    if (!isTextMode) {
-        return;
-    }
+    canvas.addEventListener('touchmove', putPointTouch);
+    canvas.addEventListener('touchstart', engageTouch);
+    canvas.addEventListener('touchend', disengage);
 }
 
 var putPoint = function(e){
@@ -84,6 +86,28 @@ var engage = function(e){
     dragging = true;
     putPoint(e);
 }
+
+var engageTouch = function(e){
+    dragging = true;
+    putPointTouch(e);
+}
+
+var putPointTouch = function(e){
+    e.preventDefault();
+        drawContext.lineTo(e.touches[0].pageX, e.touches[0].pageY);
+        drawContext.strokeStyle = selectedColor;
+        drawContext.stroke();
+        for ( var i = 0; i < touches.length; i++)
+        {
+            drawContext.beginPath();
+            drawContext.arc(e.touches[0].PageX, e.touches[0].PageY, radius, start, end);
+            drawContext.fillStyle = selectedColor;
+            drawContext.fill();
+        }
+
+        drawContext.beginPath();
+}
+
 
 var disengage = function(e){
     dragging = false;
@@ -126,6 +150,22 @@ function getCursorPosition(canvas, event) {
     textX = x;
     textY = y;
     return x, y;
+}
+
+function saveCanvas(){
+    localStorage.setItem("OMPCanvas", canvas.toDataURL("image\jpg"));
+    console.log(localStorage);
+    //console.log(dataURL);
+}
+
+function loadCanvasImage(){
+    var dataURL = localStorage.getItem("OMPCanvas");
+    console.log(dataURL);
+    var img = new Image;
+    img.src = dataURL;
+    img.onload = function () {
+        drawContext.drawImage(img, 0, 0);
+    };
 }
 
 window.onload = drawingMode();

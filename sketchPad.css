@@ -35,6 +35,40 @@ html {
     left: 150;
 }
 
+#greenButton {
+    background-color: green;
+    height: 60px;
+    width: 60px;
+    border: none;
+    z-index: 1;
+    position: absolute;
+    top: 8;
+    left: 220;
+}
+
+
+#clearAllButton {
+    background-color: grey;
+    height: 60px;
+    width: 60px;
+    border: none;
+    z-index: 1;
+    position: absolute;
+    top: 8;
+    left: 290;
+}
+
+#eraseButton {
+    background-color: grey;
+    height: 60px;
+    width: 60px;
+    border: none;
+    z-index: 1;
+    position: absolute;
+    top: 8;
+    left: 360;
+}
+
 #container {
     position: relative;
 }

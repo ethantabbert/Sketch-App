@@ -8,7 +8,7 @@ var start = 0;
 var end = Math.PI * 2;
 var dragging = false;
 
-var toggleBool = true;
+var isTextMode = false;
 
 var textEntry = "";
 var textX = 0;
@@ -18,20 +18,24 @@ canvas.width = window.innerWidth - 21;
 canvas.height = window.innerHeight * .8;
 
 textButton.addEventListener('click', function onClick() {
-    if (toggleBool) {
+    setCanvasMode();
+});
+
+function setCanvasMode(){
+    if (!isTextMode) {
         textButton.style.backgroundColor = "#0a682f";
         textButton.style.color = "white";
         textButton.textContent = "Text Mode";
-        toggleBool = false;
+        isTextMode = true;
         textMode();
     } else {
         textButton.style.backgroundColor = "#ffc425";
         textButton.style.color = "black";
         textButton.textContent = "Draw Mode";
-        toggleBool = true;
+        isTextMode = false;
         drawingMode();
     }
-});
+}
 
 function textMode() {
     canvas.removeEventListener('mousedown', engage);
@@ -57,7 +61,7 @@ function drawingMode() {
     canvas.addEventListener('mousemove', putPoint);
     canvas.addEventListener('mouseup', disengage);
 
-    if (!toggleBool) {
+    if (!isTextMode) {
         return;
     }
 }
@@ -89,7 +93,7 @@ var disengage = function(e){
 
 function textInput() {
     textEntry = "";
-    if (!toggleBool) {
+    if (isTextMode) {
         let entry = prompt("Enter text:");
         if (entry == undefined || entry == null || entry == "") {
             return;
@@ -101,6 +105,18 @@ function textInput() {
 
 function changeColor(color){
    selectedColor = color;
+}
+
+function eraser() {
+    isTextMode = true;
+    selectedColor = "#434343";
+
+    setCanvasMode();
+}
+
+function clearAll(){
+    textContext.clearRect(0,0, canvas.width, canvas.height);
+    drawContext.clearRect(0,0, canvas.width, canvas.height);
 }
 
 function getCursorPosition(canvas, event) {

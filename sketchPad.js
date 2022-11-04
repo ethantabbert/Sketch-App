@@ -51,6 +51,11 @@ var type = function(e) {
 
     textInput();
     textContext.font = "50px aerial";
+
+    if( selectedColor == '#434343') {
+        selectedColor = 'white';
+    }
+
     textContext.fillStyle = selectedColor;
     textContext.fillText(textEntry, textX, textY);
 }
